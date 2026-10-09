@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mac 本地 AI 音乐与音效检索库 · 新手配置与使用指南</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --accent-hover: #1f6feb;
+      --text-main: #c9d1d9;
+      --text-title: #f0f6fc;
+      --text-muted: #8b949e;
+      --code-bg: #0d1117;
+      --tag-bg: #21262d;
+      --success: #3fb950;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 36px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      background-color: rgba(56, 139, 253, 0.15);
+      border: 1px solid rgba(56, 139, 253, 0.4);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-title);
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    h2 {
+      font-size: 20px;
+      color: var(--text-title);
+      margin: 36px 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2::before {
+      content: "";
+      width: 4px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    p { margin-bottom: 12px; }
+
+    /* 卡片式步骤 */
+    .step-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-title);
+    }
+
+    .step-badge {
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--tag-bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* 代码块与一键复制 */
+    .code-wrapper {
+      position: relative;
+      margin: 12px 0;
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 13px;
+      color: #79c0ff;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: var(--tag-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background-color: var(--accent-hover);
+      color: #fff;
+    }
+
+    /* 对照表格 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: var(--card-bg);
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background-color: rgba(255, 255, 255, 0.03);
+      color: var(--text-title);
+      font-weight: 600;
+    }
+
+    kbd {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--text-title);
+    }
+
+    footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">macOS Apple Silicon 专属</div>
+      <h1>Mac 本地 AI 音乐与音效检索库 · 部署手册</h1>
+      <div class="subtitle">全离线 · 零泄密 · 免手动打标 · 输入画面感觉直达 Finder 资产</div>
+    </header>
+
+    <h2>一、从零安装：5 步终端配置</h2>
+
+    <div class="step-card">
+      <div class="step-header">
+        <span class="step-title">步骤 1：检查 Python 运行环境</span>
+        <span class="step-badge">耗时 10 秒</span>
+      </div>
+      <p>打开 Mac 终端（按 <code>Cmd + 空格</code> 搜索“终端”），粘贴以下命令检查环境：</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code>python3 --version</code></pre>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted);">若弹出安装开发者工具弹窗，点击“安装”即可。</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <span class="step-title">步骤 2：创建独立运行沙箱（虚拟环境）</span>
+        <span class="step-badge">规范环境</span>
+      </div>
+      <p>保持系统纯净，避免库依赖冲突：</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code>mkdir -p /Users/apple/local_indexer/local_indexer
+cd /Users/apple/local_indexer/local_indexer
+python3 -m venv venv
+source venv/bin/activate</code></pre>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted);">执行后，终端左侧出现 <code>(venv)</code> 即代表进入沙箱成功。</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <span class="step-title">步骤 3：安装 AI 与音频底层组件</span>
+        <span class="step-badge">硬件加速</span>
+      </div>
+      <p>安装 LanceDB、PyTorch 以及音频解析库：</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code>pip install --upgrade pip
+pip install torch transformers sentencepiece lancedb soundfile torchaudio librosa pyarrow pandas</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <span class="step-title">步骤 4：生成核心检索脚本 (audio_search.py)</span>
+        <span class="step-badge">核心算法</span>
+      </div>
+      <p>整段复制写入检索程序（集成 Gemma 语义理解与 Finder 直达唤起）：</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code>cat << 'EOF' > audio_search.py
+import os, subprocess, lancedb, torch, re
+from transformers import AutoModel, AutoTokenizer
+
+device = "mps" if torch.backends.mps.is_available() else "cpu"
+AUDIO_DIR = "/Users/apple/Music/my music"
+DB_PATH = "./lancedb_audio_store_v2"
+table_name = "audio_assets_v2"
+TOP_K = 6
+
+print(f"正在加载 EmbeddingGemma-2 模型 (加速: {device})...")
+model_id = "google/embeddinggemma-2"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModel.from_pretrained(model_id, trust_remote_code=True).to(device).eval()
+
+def clean_text_for_embedding(file_path: str) -> str:
+    rel_path = os.path.relpath(file_path, AUDIO_DIR)
+    clean_name = re.sub(r'(\.(wav|mp3|flac|aiff|m4a|_wav|_mp3))$', '', rel_path, flags=re.IGNORECASE)
+    clean_name = clean_name.replace('_', ' ').replace('-', ' ').replace('/', ' ')
+    return f"音频素材 配乐 音效: {clean_name}"
+
+def get_text_embedding(text: str) -> list[float]:
+    inputs = tokenizer(text, padding=True, truncation=True, max_length=512, return_tensors="pt").to(device)
+    with torch.no_grad():
+        emb = model(**inputs).last_hidden_state[:, 0, :]
+        emb = torch.nn.functional.normalize(emb, p=2, dim=1)
+    return emb[0].cpu().tolist()
+
+db = lancedb.connect(DB_PATH)
+tables = db.table_names() if hasattr(db, "table_names") else db.list_tables()
+
+if table_name not in tables:
+    print(f"\n🚀 正在为曲库构建高精度索引: {AUDIO_DIR}")
+    audio_extensions = ('.wav', '.mp3', '.flac', '.aiff', '.m4a')
+    all_files = []
+    for root, _, files in os.walk(AUDIO_DIR):
+        for f in files:
+            if f.lower().endswith(audio_extensions):
+                all_files.append(os.path.join(root, f))
+    
+    total = len(all_files)
+    print(f"📦 共发现 {total} 个音频文件，开始批量特征提取...")
+    records = []
+    batch_size = 128
+    for i in range(0, total, batch_size):
+        batch_paths = all_files[i:i+batch_size]
+        batch_texts = [clean_text_for_embedding(p) for p in batch_paths]
+        inputs = tokenizer(batch_texts, padding=True, truncation=True, max_length=512, return_tensors="pt").to(device)
+        with torch.no_grad():
+            embs = model(**inputs).last_hidden_state[:, 0, :]
+            embs = torch.nn.functional.normalize(embs, p=2, dim=1).cpu().tolist()
+        for p, vec in zip(batch_paths, embs):
+            records.append({"id": len(records), "file_name": os.path.basename(p), "full_path": p, "vector": vec})
+        print(f"进度: [{min(i+batch_size, total)}/{total}]")
+    table = db.create_table(table_name, data=records)
+    print(f"🎉 建立完成！共收录 {len(records)} 首素材入库。")
+else:
+    table = db.open_table(table_name)
+    print(f"✅ 载入高精度音频库就绪，共收录 {len(table)} 首素材。")
+
+print("\n" + "=" * 58)
+print(f"🎵 音乐/音效高精度语义检索已就绪 (展示前 {TOP_K} 个推荐)")
+print("• 直接输入色彩/情绪/乐器描述进行检索")
+print(f"• 搜索后输入序号 [1-{TOP_K}] 自动在 Finder 中高亮选中")
+print("• 输入 's' 或直接敲回车更换关键词，输入 'q' 退出程序")
+print("=" * 58)
+
+while True:
+    prompt = input("\n🔍 请输入想找的音乐色彩/情绪/质感: ").strip()
+    if prompt.lower() == 'q': break
+    if not prompt: continue
+    query_vec = get_text_embedding(f"寻找音频配乐素材: {prompt}")
+    results = table.search(query_vec).limit(TOP_K).to_list()
+    print(f"\n🎧 针对「{prompt}」推荐的候选结果：")
+    print("-" * 58)
+    for i, r in enumerate(results, 1):
+        print(f" [{i}] {r['file_name']}\n     相似度距离: {r['_distance']:.4f}")
+    print("-" * 58)
+    while True:
+        choice = input(f"👉 输入 [1-{len(results)}] 在 Finder 打开（'s' 重新搜索，'q' 退出）: ").strip().lower()
+        if choice.isdigit() and 1 <= int(choice) <= len(results):
+            idx = int(choice) - 1
+            subprocess.run(["open", "-R", results[idx]['full_path']])
+            print(f"✨ 已在 Finder 中高亮: {results[idx]['file_name']}")
+        elif choice == 's' or choice == '': break
+        elif choice == 'q': exit()
+EOF</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <span class="step-title">步骤 5：配置全局快捷单字别名 (ms / mu)</span>
+        <span class="step-badge">一劳永逸</span>
+      </div>
+      <p>绑定终端全局别名，以后开机再也不用切换目录：</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code>echo "alias ms='cd /Users/apple/local_indexer/local_indexer && source venv/bin/activate && python audio_search.py'" >> ~/.zshrc
+source ~/.zshrc</code></pre>
+      </div>
+    </div>
+
+    <h2>二、日常极简使用流程</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>动作</th>
+          <th>指令</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>启动搜索</strong></td>
+          <td><kbd>ms</kbd></td>
+          <td>随时打开终端敲入，秒级唤醒本地曲库。</td>
+        </tr>
+        <tr>
+          <td><strong>直达文件</strong></td>
+          <td><kbd>1</kbd> ~ <kbd>6</kbd></td>
+          <td>在候选结果中直接输入序号，Finder 瞬间弹窗并高亮选中该文件。</td>
+        </tr>
+        <tr>
+          <td><strong>试听与剪辑</strong></td>
+          <td><kbd>空格键</kbd></td>
+          <td>在 Finder 弹窗中按空格快速 QuickLook 视听，直接拖进剪辑轨道。</td>
+        </tr>
+        <tr>
+          <td><strong>换词再搜</strong></td>
+          <td><kbd>s</kbd></td>
+          <td>输入 s 敲回车重新输入新的音乐感觉。</td>
+        </tr>
+        <tr>
+          <td><strong>退出工具</strong></td>
+          <td><kbd>q</kbd></td>
+          <td>释放终端，退出程序。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>三、进阶：三维色彩提示词秘籍</h2>
+    <p>为了获得最契合的音频，建议按照<strong>「空间环境 + 乐器材质 + 律动特征」</strong>输入描述：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>场景调性</th>
+          <th>推荐描述词</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>硬派推背 / 速度感</strong></td>
+          <td><code>重低音 节奏鼓点 电子打击乐 机械律动 Trap Beat</code></td>
+        </tr>
+        <tr>
+          <td><strong>荒原雪山 / 孤寂冷峻</strong></td>
+          <td><code>空旷冷色 合成器长音铺底 孤独环境氛围 Pad Ambient Drone</code></td>
+        </tr>
+        <tr>
+          <td><strong>史诗纪实 / 粗粝大地</strong></td>
+          <td><code>质朴民族打击乐 羊皮鼓 粗粝木管 呼麦 悠远长调 Ethnic Folk</code></td>
+        </tr>
+        <tr>
+          <td><strong>情绪留白 / 人物内敛</strong></td>
+          <td><code>极简温润 毡马掌钢琴单音 柔和泛音 情感回忆 Melancholy Piano</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <footer>
+      macOS 本地向量知识库 · 离线极速运行 · 本地存储无外传
+    </footer>
+  </div>
+
+  <script>
+    function copyCode(btn) {
+      const code = btn.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.innerText = "已复制！";
+        btn.style.borderColor = "var(--success)";
+        btn.style.color = "var(--success)";
+        setTimeout(() => {
+          btn.innerText = "复制";
+          btn.style.borderColor = "var(--border)";
+          btn.style.color = "var(--text-main)";
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
